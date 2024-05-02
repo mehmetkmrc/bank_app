@@ -9,5 +9,12 @@ packages:
     emit_prepared_queries: false
     emit_interface: false
     emit_exact_table_names: false
+    sql_package: "database/sql"
 # accounts table -> Account struct
 # var account Accounts
+
+#In your sqlc.yaml file, do you set the sql_package value to "database/sql" ?
+
+#sql_package:
+
+#Either pgx/v4, pgx/v5 or database/sql. Defaults to database/sql.
