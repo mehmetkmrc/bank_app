@@ -70,6 +70,21 @@ func TestGetAccountAPI(t *testing.T) {
 				//fmt.Println("Error burası :",recorder)
 				require.Equal(t, http.StatusInternalServerError, recorder.Code)
 			},
+		},
+		{
+			name: 	"InvalidID",
+			accountID: 0,
+			buildStubs: func(store *mockdb.MockStore) {
+				//fmt.Println("DENEME3",account.ID)
+				store.EXPECT().
+						GetAccount(gomock.Any(), gomock.Any()).
+						Times(0)
+				//fmt.Println("DENEME2")
+			},
+			checkResponse: func(t *testing.T, recorder *httptest.ResponseRecorder){
+				//fmt.Println("Error burası :",recorder)
+				require.Equal(t, http.StatusBadRequest, recorder.Code)
+			},
 		}, 	
 	}
 
@@ -88,7 +103,7 @@ func TestGetAccountAPI(t *testing.T) {
 			server := NewServer(store)
 			recorder := httptest.NewRecorder()
 		
-			url := fmt.Sprintf("/accounts/%d", account.ID)
+			url := fmt.Sprintf("/accounts/%d", tc.accountID)
 			request, err := http.NewRequest(http.MethodGet, url, nil)
 			require.NoError(t, err)
 		
